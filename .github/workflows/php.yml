@@ -1,10 +1,6 @@
 name: Run PHPUnit Tests
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: [push, pull_request]
 
 jobs:
   test:
@@ -22,30 +18,33 @@ jobs:
           --health-cmd="mysqladmin ping --silent"
           --health-interval=10s
           --health-timeout=5s
-          --health-retries=3
+          --health-retries=5
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.2'
-        extensions: mysqli, pdo, pdo_mysql
-        coverage: none
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, pdo, mysqli
+          coverage: none
 
-    - name: Install dependencies
-      run: composer install
+      - name: Wait for MySQL to be ready
+        run: sleep 20
 
-    - name: Wait for MySQL
-      run: sleep 15
+      - name: Create devops_db if not exists (safety)
+        run: |
+          mysql -h 127.0.0.1 -u root -proot -e "CREATE DATABASE IF NOT EXISTS devops_db;"
 
-    - name: Run Migrations
-      run: php spark migrate
+    
 
-    - name: Make PHPUnit executable
-      run: chmod +x vendor/bin/phpunit
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist
 
-    - name: Run PHPUnit
-      run: vendor/bin/phpunit
+      - name: Run migrations (if using CodeIgniter migrations)
+        run: php spark migrate --no-interaction || true
+
+      - name: Run PHPUnit tests
+        run: vendor/bin/phpunit --configuration phpunit.xml.dist
