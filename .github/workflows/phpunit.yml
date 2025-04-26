@@ -64,8 +64,4 @@ jobs:
 
     - name: Run PHPUnit tests
       run: |
-<<<<<<< HEAD
-        php vendor/bin/phpunit --verbose
-=======
-        php vendor/bin/phpunit
->>>>>>> 7bcb1039c1ae5bbf847d6699aa1eccfc56e139fc
+
