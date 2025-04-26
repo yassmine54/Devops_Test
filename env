@@ -29,14 +29,13 @@
 #--------------------------------------------------------------------
 # DATABASE
 #--------------------------------------------------------------------
-
- database.default.hostname = localhost
- database.default.database = devops_db
- database.default.username = root
- database.default.password = 123456789yassmine
- database.default.DBDriver = MySQLi
- database.default.DBPrefix =
- database.default.port = 3306
+database.default.hostname = localhost
+database.default.database = devops_db
+database.default.username = root
+database.default.password = 123456789yassmine
+database.default.DBDriver = MySQLi
+database.default.DBPrefix =
+database.default.port = 3306
 
 # If you use MySQLi as tests, first update the values of Config\Database::$tests.
 # database.tests.hostname = localhost
