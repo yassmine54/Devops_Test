@@ -48,6 +48,19 @@ jobs:
     - name: Configure Database
       run: |
         mysql -h127.0.0.1 -uroot -p123456789yassmine -e "CREATE DATABASE IF NOT EXISTS devops_db;"
+        # Création des tables 
+        mysql -h127.0.0.1 -uroot -p123456789yassmine devops_db -e "
+          CREATE TABLE IF NOT EXISTS panier (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            n_article VARCHAR(255) NOT NULL,
+            client VARCHAR(25) NOT NULL
+          );
+          CREATE TABLE IF NOT EXISTS db_users (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL
+          );
+        "
 
     - name: Run PHPUnit tests
       run: |
