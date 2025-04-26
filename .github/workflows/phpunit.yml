@@ -1,0 +1,54 @@
+name: Run PHPUnit Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: 123456789yassmine
+          MYSQL_DATABASE: devops_db
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2' # adapte si besoin
+        extensions: mbstring, intl, pdo, pdo_mysql
+
+    - name: Install dependencies
+      run: |
+        composer install
+
+    - name: Wait for MySQL
+      run: |
+        sudo apt-get install -y mysql-client
+        until mysqladmin ping -h127.0.0.1 -P3306 --silent; do
+          sleep 1
+        done
+
+    - name: Configure Database
+      run: |
+        mysql -h127.0.0.1 -uroot -p123456789yassmine -e "CREATE DATABASE IF NOT EXISTS devops_db;"
+
+    - name: Run PHPUnit tests
+      run: |
+        php vendor/bin/phpunit
