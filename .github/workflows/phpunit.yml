@@ -25,3 +25,9 @@ jobs:
 
       - name: Run PHPUnit tests
         run: ./vendor/bin/phpunit --coverage-text
+        
+      - name: Give execution permission to PHPUnit
+        run: chmod +x ./vendor/bin/phpunit
+      
+      - name: Run PHPUnit tests
+        run: ./vendor/bin/phpunit --coverage-text
