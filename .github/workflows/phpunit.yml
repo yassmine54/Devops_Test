@@ -16,7 +16,7 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'  # Change si besoin
+          php-version: '8.2'  # Change si besoin
           extensions: mbstring, intl, pdo, mysqli
           coverage: xdebug
 
