@@ -1,4 +1,5 @@
 name: PHPUnit Tests
+
 on:
   push:
     branches: [ main ]
@@ -23,11 +24,8 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist
 
-      - name: Run PHPUnit tests
-        run: ./vendor/bin/phpunit --coverage-text
-        
       - name: Give execution permission to PHPUnit
         run: chmod +x ./vendor/bin/phpunit
-      
+
       - name: Run PHPUnit tests
         run: ./vendor/bin/phpunit --coverage-text
