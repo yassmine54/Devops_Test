@@ -2,9 +2,9 @@ name: Run PHPUnit Tests
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   phpunit:
@@ -51,4 +51,4 @@ jobs:
 
     - name: Run PHPUnit tests
       run: |
-        php vendor/bin/phpunit
+        php vendor/bin/phpunit --verbose

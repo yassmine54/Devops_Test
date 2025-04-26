@@ -20,22 +20,25 @@ class PanierModelTest extends CIUnitTestCase
     }
 
     public function testInsertPanier(): void
-    {
-        $data = [
-            'n_article' => 'R200',
-            'client'    => 'Jamila',
-        ];
+{
+    $data = [
+        'n_article' => 'R200',
+        'client'    => 'Jamila',
+    ];
 
-        // Insertion
-        $id = $this->model->insert($data);
-        $this->assertIsInt($id);
+    // Assurez-vous que la table est vide avant l'insertion
+    $this->assertCount(0, $this->model->findAll());
 
-        // Récupération
-        $result = $this->model->find($id);
-        $this->assertNotEmpty($result);
-        $this->assertEquals('R200', $result['n_article']);
-        $this->assertEquals('Jamila', $result['client']);
-    }
+    // Insertion
+    $id = $this->model->insert($data);
+    $this->assertIsInt($id);
+
+    // Récupération
+    $result = $this->model->find($id);
+    $this->assertNotEmpty($result);
+    $this->assertEquals('R200', $result['n_article']);
+    $this->assertEquals('Jamila', $result['client']);
+}
 
     public function testFindAllPanier(): void
     {
